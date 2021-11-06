@@ -51,7 +51,7 @@ void main() {
     // 'reflect()' : função do sistema que retorna 'R_cam_spc', isto é, o vetor 'L_cam_spc' refletido 
     //     em relação o vetor 'N_cam_spc'.
     
-    vec3 R_cam_spc = reflect(L_cam_spc, N_cam_spc);
+    vec3 R_cam_spc = reflect(- L_cam_spc, N_cam_spc);
 
     
     // Gouraud Shading (interpolação por vértice). 
@@ -65,8 +65,8 @@ void main() {
     // Termo Difuso
     vec4 tD = (vec4(Ip_diffuse_color,1) * vec4(k_d,1)) * max(0.0,dot(N_cam_spc,L_cam_spc));
     // Termo Especular
-    float expoente_n = 20.0;
-    vec3 vision = -normalize(vec3(P_cam_spc)); // adotando a câmera como referencial
+    float expoente_n = 16.0;
+    vec3 vision = normalize(vec3(- P_cam_spc)); // adotando a câmera como referencial
     vec4 tE = (vec4(Ip_diffuse_color,1) * vec4(k_s,1)) * pow(max(0.0,dot(R_cam_spc,vision)), expoente_n);
     
     I =  tA +  tD + tE;
