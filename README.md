@@ -32,7 +32,7 @@ O cálculo foi feito a partir do código:
   vec4 tD = (vec4(Ip_diffuse_color,1) * vec4(k_d,1)) * max(0.0,dot(N_cam_spc,L_cam_spc));
 ~~~
 
-os termos de intensidade da luz pontual e o coeficiente de reflexão difusa já foram dados. O produto interno foi calculado com o vetor normal do vértice no espaço de câmera e
+Os termos de intensidade da luz pontual e o coeficiente de reflexão difusa já foram dados. O produto interno foi calculado com o vetor normal do vértice no espaço de câmera e
 o vetor de direção da luz pontual (que foi calculado por: **normalize(Ip_pos_cam_spc.xyz - P_cam_spc.xyz)**).
 
 ### Termo especular
@@ -44,11 +44,20 @@ O cálculo foi realizado da sequinte forma:
   vec4 tE = (vec4(Ip_diffuse_color,1) * vec4(k_s,1)) * pow(max(0.0,dot(R_cam_spc,vision)), expoente_n);
 ~~~
 
-Como nota, o vetor R foi obtido refletindo o vetor L (normalizado) em relação ao vetor  normal, com a ressalva de que foi necessário passar com argumento para função **reflect()** o L negado. Ademais o vetor **vision** é o vetor normalizado obtido pelo cálculo: **(0,0,0) - P_cam**.
+Como nota, o vetor R foi obtido refletindo o vetor L (normalizado) em relação ao vetor  normal, com a ressalva de que foi necessário passar como argumento para função **reflect()** o L negado. Ademais o vetor **vision** é o vetor normalizado obtido pelo cálculo: **(0,0,0) - P_cam**.
 
-Por fim, assinalamos para a intensidade I a soma tA + tD + tE. No fragment Shader passamos I interpolado para a varável  gl_FragColor.
+Por fim, assinalamos para a intensidade I a soma tA + tD + tE. No fragment Shader, passamos **I** interpolado para a varável  **gl_FragColor**.
 
 ### Imagem gerada pelo Gouraud Shading
+
+<br>
+<p align = "center">
+<img  style = "justify-content: center" src= "gouraud_front.png" alt =   "drawing" width = "306" height = "298">
+</p>
+
+<p align = "center">
+<b> Figura 1: Torus de frente para mostrar o brilho da imagem gerado pelo Gouraud shading</b><p>
+</p>
 
 <br>
 <p align = "center">
@@ -56,12 +65,12 @@ Por fim, assinalamos para a intensidade I a soma tA + tD + tE. No fragment Shade
 </p>
 
 <p align = "center">
-<b> Figura 1: Torus inclinado para mostrar o brilho da imagem gerado pelo Gouraud shading</b><p>
+<b> Figura 2: Torus inclinado para mostrar o brilho da imagem gerado pelo Gouraud shading</b><p>
 </p>
 
 ## Implementação do Phong Shading:
 
-Na abordagem de Phong os cálculos de iluminação são feitos agora no fragment shading. Em primeira instância, no vertex shader, algumas preparações são feitas. Calculamos variáveis que serão mandadas para o fragment shader: 
+Na abordagem de Phong, os cálculos de iluminação são feitos agora no fragment shading. Em primeira instância, no vertex shader, algumas preparações são feitas. Calculamos variáveis que serão mandadas para o fragment shader: 
 - **Ip_pos_cam_fragments** (posição da fonte de luz no espaço da câmera);
 - **P_fragments**(vértices no espaço de camera que serão interpolados na passagem para o fragmentShader);
 
@@ -93,9 +102,19 @@ O cálculo análogo ao feito no Gouraud shading
     vec4 tE = (vec4(Ip_diffuse_color,1) * vec4(k_s,1)) * pow(max(0.0,dot(R_cam_spc_fragments,vision)), expoente_n);
 ~~~
 
-Finalmente, somamos os termos, assinalamos à intensiade I e a atribuitmos a gl_FragColor.
+Finalmente, somamos os termos, assinalamos à intensiade **I** e a atribuitmos a **gl_FragColor**.
 
 ## Imagem gerada com Phong Shading
+
+<br>
+<p align = "center">
+<img  style = "justify-content: center" src= "phong_front.png" alt =   "drawing" width = "306" height = "298">
+</p>
+
+<p align = "center">
+<b> Figura 3: Torus de frente para mostrar o brilho da imagem gerado pelo Phong shading</b><p>
+</p>
+
 
 <br>
 <p align = "center">
@@ -103,7 +122,7 @@ Finalmente, somamos os termos, assinalamos à intensiade I e a atribuitmos a gl_
 </p>
 
 <p align = "center">
-<b> Figura 1: Torus inclinado para mostrar o brilho da imagem gerado pelo Phong shading</b><p>
+<b> Figura 4: Torus inclinado para mostrar o brilho da imagem gerado pelo Phong shading</b><p>
 </p>
 
 ## Dificuldades na resolução da atividade
@@ -112,5 +131,5 @@ estavamos obtendo resultados errados com o brilho constando em uma região escur
 
 ## Referências
 
-https://www.khronos.org/registry/OpenGL-Refpages/gl4/ **(Documentação do GLSL)**
+https://www.khronos.org/registry/OpenGL-Refpages/gl4 **(Documentação do GLSL)**
 https://threejs.org/docs/#api/en/materials/ShaderMaterial **(ShaderMaterial Three.js)**
